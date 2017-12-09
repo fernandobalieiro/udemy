@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>VueJS</title>
+        <script src="vue.js"></script>
+        <style media="screen">
+            #effect {
+                width: 100px;
+                height: 100px;
+                border: 1px solid black;
+            }
+
+            .highlight {
+                background-color: red;
+                width: 200px !important;
+            }
+
+            .shrink {
+                background-color: gray;
+                width: 50px !important;
+            }
+
+            .yellow {
+                background-color: yellow;
+            }
+
+            .boldText {
+                font-weight: bold;
+            }
+
+            .gray {
+                background-color: gray;
+                width: 100px;
+                height: 100px;
+            }
+
+            .brown {
+                background-color: brown;
+                width: 100px;
+                height: 100px;
+            }
+
+            .red {
+                background-color: red;
+                width: 100px;
+                height: 100px;
+            }
+
+            .bigger {
+                width: 500px;
+                height: 500px;
+            }
+
+            .bar {
+                background-color: orange;
+                height: 25px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="exercise">
+          <!-- 1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink" class on each new setInterval tick (attach respective class to the div with id "effect" below) -->
+          <div>
+            <button @click="startEffect">Start Effect</button>
+            <div id="effect" :class="{highlight: attachHighlight, shrink: !attachHighlight}"></div>
+          </div>
+
+          <!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
+          <div id="arraySyntax" @click="attachBold = !attachBold" :class="divClasses">I got no class :(</div>
+
+          <!-- 3) Let the user enter a class (create some example classes) and attach it -->
+          <div>
+            <input type="text" v-model="userClass">
+            <div :class="userClass"></div>
+          </div>
+
+          <!-- 4) Let the user enter a class and enter true/ false for another class (create some example classes) and attach the classes -->
+          <div>
+            <input type="text" v-model="userClass2">
+            <input type="text" v-model="binaryChoice">
+            <div :class="[userClass2, {bigger: binaryChoice == 'true'}]"></div>
+          </div>
+
+          <!-- 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.  -->
+          <div>
+            <input type="text" v-model="userStyle">
+            <div class="red" :style="{backgroundColor: userStyle}"></div>
+          </div>
+
+          <!-- 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
+          <div>
+            <button v-on:click="startProgress">Start Progress</button>
+            <div :class="{bar: barWidth > 0}" :style="{width: barWidth + 'px'}"></div>
+          </div>
+        </div>
+        <script>
+            new Vue({
+                el: '#exercise',
+                    data: {
+                        attachHighlight: false,
+                        attachBold: true,
+                        userClass: '',
+                        userClass2: '',
+                        binaryChoice: false,
+                        userStyle: '',
+                        barWidth: 0
+                    },
+                    computed: {
+                    	divClasses: function() {
+                        	return {
+                              	yellow: !this.attachBold,
+                              	boldText: this.attachBold
+                            };
+                        }
+                    },
+                    methods: {
+                        startEffect: function() {
+                            vm = this;
+                            setInterval(function() {
+                                vm.attachHighlight = true;
+                            }, 2000);
+                            setInterval(function() {
+                                vm.attachHighlight = false;
+                            }, 3000);
+                        },
+                        startProgress: function() {
+                            vm = this;
+                            setInterval(function() {
+                                vm.barWidth += 10;
+                            }, 1000);
+                        }
+                    }
+            });
+        </script>
+    </body>
+</html>
