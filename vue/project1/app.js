@@ -32,10 +32,22 @@ new Vue({
                 if (confirm('You lost! New game?')) {
                     this.newGame();
                 }
-            }   
+            }
         }
     },
     methods: {
+        startGame: function() {
+            this.newGame();
+            this.gameOn = true;
+        },
+        newGame: function() {
+            this.gameOn = false;
+            this.actionResults = [];
+            this.myHealth = this.MAX_HEALTH;
+            this.monsterHealth = this.MAX_HEALTH;
+            this.myAttackResult = 0;
+            this.monsterAttackResult = 0;
+        },
         attack: function() {
             this.myAttack(this.MIN_DAMAGE, this.MAX_DAMAGE);
             this.monsterAttack(this.MIN_DAMAGE, this.MAX_DAMAGE);
@@ -43,6 +55,19 @@ new Vue({
         specialAttack: function() {
             this.myAttack(this.MIN_DAMAGE_SPECIAL_ATTACK, this.MAX_DAMAGE_SPECIAL_ATTACK);
             this.monsterAttack(this.MIN_DAMAGE, this.MAX_DAMAGE);
+        },
+        heal: function() {
+            if (this.healingTimes < this.MAX_HEALING_TIMES) {
+                var plusHealth = this.getRandom(this.MIN_HEALING, this.MAX_HEALING);
+                if (this.myHealth + plusHealth <= this.MAX_HEALTH) {
+                    this.myHealth += plusHealth;
+                } else {
+                    this.myHealth = this.MAX_HEALTH;
+                }
+                this.healingTimes++;
+            } else {
+                alert('Max healing times reached!');
+            }
         },
         myAttack: function(minDamage, maxDamage) {
             this.myAttackResult = this.getRandom(minDamage, maxDamage);
@@ -66,27 +91,6 @@ new Vue({
             };
 
             this.actionResults.push(resultAction);
-        },
-        heal: function() {
-            if (this.healingTimes < this.MAX_HEALING_TIMES) {
-                var plusHealth = this.getRandom(this.MIN_HEALING, this.MAX_HEALING);
-                if (this.myHealth + plusHealth <= this.MAX_HEALTH) {
-                    this.myHealth += plusHealth;
-                } else {
-                    this.myHealth = this.MAX_HEALTH;
-                }
-                this.healingTimes++;
-            } else {
-                alert('Max healing times reached!');
-            }
-        },
-        newGame: function() {
-            this.gameOn = false;
-            this.actionResults = [];
-            this.myHealth = this.MAX_HEALTH;
-            this.monsterHealth = this.MAX_HEALTH;
-            this.myAttackResult = 0;
-            this.monsterAttackResult = 0;
         }
     }
 });

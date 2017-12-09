@@ -28,7 +28,7 @@
     </section>
     <section class="row controls" v-if="!gameOn">
         <div class="small-12 columns">
-            <button id="start-game" @click="gameOn = !gameOn">START NEW GAME</button>
+            <button id="start-game" @click="startGame">START NEW GAME</button>
         </div>
     </section>
     <section class="row controls" v-else>
@@ -48,7 +48,7 @@
             </ul>
         </div>
     </section>
-    <script src="app.js"></script>
 </div>
+<script src="app.js"></script>
 </body>
 </html>
