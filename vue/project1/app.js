@@ -49,22 +49,30 @@ new Vue({
             this.monsterAttackResult = 0;
         },
         attack: function() {
-            this.myAttack(this.MIN_DAMAGE, this.MAX_DAMAGE);
             this.monsterAttack(this.MIN_DAMAGE, this.MAX_DAMAGE);
+            this.myAttack(this.MIN_DAMAGE, this.MAX_DAMAGE);
         },
         specialAttack: function() {
-            this.myAttack(this.MIN_DAMAGE_SPECIAL_ATTACK, this.MAX_DAMAGE_SPECIAL_ATTACK);
             this.monsterAttack(this.MIN_DAMAGE, this.MAX_DAMAGE);
+            this.myAttack(this.MIN_DAMAGE_SPECIAL_ATTACK, this.MAX_DAMAGE_SPECIAL_ATTACK);
         },
         heal: function() {
             if (this.healingTimes < this.MAX_HEALING_TIMES) {
-                var plusHealth = this.getRandom(this.MIN_HEALING, this.MAX_HEALING);
-                if (this.myHealth + plusHealth <= this.MAX_HEALTH) {
-                    this.myHealth += plusHealth;
+                if (this.myHealth < this.MAX_HEALTH) {
+                    var plusHealth = this.getRandom(this.MIN_HEALING, this.MAX_HEALING);
+
+                    if (this.myHealth + plusHealth <= this.MAX_HEALTH) {
+                        this.myHealth += plusHealth;
+                    } else {
+                        this.myHealth = this.MAX_HEALTH;
+                    }
+                    if (this.healingTimes < this.MAX_HEALING_TIMES && plusHealth > 0) {
+                        this.pushResult('player-turn', 'PLAYER HEALS FOR ', plusHealth);
+                        this.healingTimes++;
+                    }
                 } else {
-                    this.myHealth = this.MAX_HEALTH;
+                    this.pushResult('player-turn', 'PLAYER HEALTH IS FULL.', '');
                 }
-                this.healingTimes++;
             } else {
                 alert('Max healing times reached!');
             }
@@ -90,7 +98,7 @@ new Vue({
                 resultMessage: '[' + new Date() + '] ' + message + damage,
             };
 
-            this.actionResults.push(resultAction);
+            this.actionResults.unshift(resultAction);
         }
     }
 });
