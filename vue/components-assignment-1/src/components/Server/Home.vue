@@ -9,22 +9,24 @@
             <my-server-details></my-server-details>
         </div>
         <hr>
-        <my-servers-management></my-servers-management>
+        <div class="row">
+            <my-servers-management></my-servers-management>
+        </div>
     </div>
 </template>
 
 <script>
-    import Header from './Header.vue';
+    import Header from '../Shared/Header.vue';
+    import Footer from '../Shared/Footer.vue';
     import Servers from './Servers.vue';
     import ServerDetails from './ServerDetails.vue';
-    import ServersManagement from './ServersManagement.vue';
 
     export default {
         components: {
             'my-header': Header,
             'my-servers': Servers,
             'my-server-details': ServerDetails,
-            'my-servers-management': ServersManagement
+            'my-servers-management': Footer
         }
     }
 </script>
