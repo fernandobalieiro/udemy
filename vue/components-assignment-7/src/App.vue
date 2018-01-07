@@ -4,9 +4,7 @@
         <hr>
         <div class="row">
             <servers></servers>
-            <app-server-details
-                @serverWasUpdated="updatedServer = $event">
-            </app-server-details>
+            <app-server-details></app-server-details>
         </div>
         <hr>
         <app-footer></app-footer>

@@ -1,5 +1,5 @@
 <template>
-  <div @click="setSelectedServer(serverItem)">
+  <div @click="setSelectedServer(serverItem)" style="cursor: pointer">
       <p>Server #{{ serverIndex }}<p>
       <p>Id: {{ serverItem.id }}
       <p>Status: {{ serverItem.status }}</p>
@@ -16,6 +16,7 @@
         },
         methods: {
             setSelectedServer(serverItem) {
+                eventBus.$emit('selectedServer', this.serverItem);
                 eventBus.selectedServer = serverItem;
                 console.log(eventBus.selectedServer.id);
             }

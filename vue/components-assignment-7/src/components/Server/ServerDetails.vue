@@ -1,6 +1,7 @@
 <template>
     <div class="col-xs-12 col-sm-6">
-        <p>Server Details are currently not updated</p>
+        <p v-if="!selectedServer">Server Details are currently not updated</p>
+        <p v-else>Selected Server: {{ selectedServer }}</p>
         <button @click="changeToNormal">Change to Normal</button>
     </div>
 
@@ -10,14 +11,21 @@
     import { eventBus } from '../../main';
 
     export default {
-        props: {
-            selectedServer: Object
+        data: function(){
+            return {
+              selectedServer: null
+            };
         },
         methods: {
             changeToNormal() {
-                eventBus.selectedServer.status = 'Normal';
-                eventBus.changeServerToNormal(this.selectedServer);
+                this.selectedServer.status = 'Normal';
             }
+        },
+        created() {
+            eventBus.$on('selectedServer', (server) => {
+                console.log('bla');
+                this.selectedServer = server;
+            });
         }
     }
 </script>
