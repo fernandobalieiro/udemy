@@ -5,32 +5,36 @@
                 type="text"
                 id="firstName"
                 class="form-control"
-                @blur="firstNameChanged"
-                v-model="fName">
+                :value="firstName"
+                @input="firstNameChanged($event)">
         <input
                 type="text"
                 id="lastName"
                 class="form-control"
-                @blur="lastNameChanged"
-                v-model="lName">
+                :value="lastName"
+                @input="lastNameChanged($event)">
     </div>
 </template>
 
 <script>
 export default {
-    props: ["firstName", "lastName"],
-    data() {
-        return {
-            fName: this.firstName,
-            lName: this.lastName
-        };
+    props: ["value"],
+    computed: {
+        firstName() {
+            return this.value.split(" ")[0];
+        },
+        lastName() {
+            return this.value.split(" ")[1];
+        }
     },
     methods: {
-        firstNameChanged(fName) {
-            this.$emit("firstNameChanged", fName.target.value);
+        firstNameChanged(event) {
+            this.value = event.target.value + " " + this.lastName;
+            this.$emit("input", this.value);
         },
-        lastNameChanged(lName) {
-            this.$emit("lastNameChanged", lName.target.value);
+        lastNameChanged(event) {
+            this.value = this.firstName + " " + event.target.value;
+            this.$emit("input", this.value);
         }
     }
 };

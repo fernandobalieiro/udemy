@@ -23,11 +23,7 @@
                                 class="form-control"
                                 v-model="userData.lastName">
                     </div> -->
-                    <app-full-name
-                        :firstName="userData.firstName"
-                        :lastName="userData.lastName"
-                        @firstNameChanged="fNameChanged"
-                        @lastNameChanged="lNameChanged"></app-full-name>
+                    <app-full-name v-model="userData.fullName"></app-full-name>
 
                     <div class="form-group">
                         <label for="email">Mail</label>
@@ -88,7 +84,7 @@
                         <h4>Your Data</h4>
                     </div>
                     <div class="panel-body">
-                        <p>Full Name: {{ userData.firstName}} {{ userData.lastName }}</p>
+                        <p>Full Name: {{ userData.fullName }}</p>
                         <p>Mail: {{ userData.email }}</p>
                         <p>Password: {{ userData.password}}</p>
                         <p>Store in Database?: {{ storeInformation }}</p></p>
@@ -106,8 +102,7 @@ export default {
     data() {
         return {
             userData: {
-                firstName: "First",
-                lastName: "Last",
+                fullName: "First Last",
                 email: ""
             },
             storeInformation: "Yes",
@@ -120,12 +115,6 @@ export default {
     methods: {
         submitted() {
             this.isSubmitted = true;
-        },
-        fNameChanged(firstName) {
-            this.userData.firstName = firstName;
-        },
-        lNameChanged(lastName) {
-            this.userData.lastName = lastName;
         }
     }
 };
