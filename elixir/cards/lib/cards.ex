@@ -1,4 +1,8 @@
 defmodule Cards do
+  @moduledoc """
+    Provides methods for creating and handling a deck of cards
+  """
+
   @spec create_deck :: [<<_::24, _::_*16>>, ...]
   def create_deck do
     values = ["Ace", "Two", "Three", "Four", "Five", "Six"]
