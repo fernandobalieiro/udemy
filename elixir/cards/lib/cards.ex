@@ -1,10 +1,19 @@
 defmodule Cards do
   @moduledoc """
-    Provides methods for creating and handling a deck of cards
+    Provides methods for creating and handling a deck of cards.
   """
 
   @doc """
-    Returns a list of strings representing a deck of playing cards
+    Returns a list of strings representing a deck of playing cards.
+
+  ## Examples
+      iex> Cards.create_deck
+      ["Ace of Spades", "Two of Spades", "Three of Spades", "Four of Spades",
+      "Five of Spades", "Six of Spades", "Ace of Clubs", "Two of Clubs",
+      "Three of Clubs", "Four of Clubs", "Five of Clubs", "Six of Clubs",
+      "Ace of Hearts", "Two of Hearts", "Three of Hearts", "Four of Hearts",
+      "Five of Hearts", "Six of Hearts", "Ace of Diamonds", "Two of Diamonds",
+      "Three of Diamonds", "Four of Diamonds", "Five of Diamonds", "Six of Diamonds"]
   """
   @spec create_deck :: [<<_::24, _::_*16>>, ...]
   def create_deck do
@@ -21,6 +30,14 @@ defmodule Cards do
     Enum.shuffle(deck)
   end
 
+  @doc """
+    Determines wether a deck contains a given card.
+
+  ## Examples
+      iex> deck = Cards.create_deck
+      iex> Cards.contains?(deck, "Ace of Spades")
+      true
+  """
   @spec contains?(any, any) :: boolean
   def contains?(deck, card) do
     Enum.member?(deck, card)
