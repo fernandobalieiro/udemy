@@ -12,11 +12,10 @@ listPriceForCarInCurrency(Currency, CarName, PriceInUSD) ->
   ConvertedPrice = convert(Currency, PriceInUSD),
   io:fwrite(CarName ++ " => Price: " ++ integer_to_list(ConvertedPrice) ++ "\n").
 
-convert(usd, Value) ->
-  Value;
-convert(gbp, Value) ->
-  round(Value * 0.76);
-convert(eur, Value) ->
-  round(Value * 0.84);
-convert(_, _) ->
-  0.
+convert(Currency, Value) ->
+  case Currency of
+    eur -> round(Value * 0.84);
+    gbp -> round(Value * 0.76);
+    usd -> Value;
+    _ -> 0
+  end.
