@@ -1,0 +1,5 @@
+# Configuration file
+# key = value
+greeting:
+  name: hello
+  base64Name: RmVybmFuZG8=
