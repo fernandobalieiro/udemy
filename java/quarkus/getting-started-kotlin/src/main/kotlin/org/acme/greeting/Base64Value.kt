@@ -1,4 +1,4 @@
-package org.acme
+package org.acme.greeting
 
 import java.util.Base64
 

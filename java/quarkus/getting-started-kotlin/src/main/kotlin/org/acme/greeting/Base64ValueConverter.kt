@@ -1,4 +1,4 @@
-package org.acme
+package org.acme.greeting
 
 import org.eclipse.microprofile.config.spi.Converter
 
