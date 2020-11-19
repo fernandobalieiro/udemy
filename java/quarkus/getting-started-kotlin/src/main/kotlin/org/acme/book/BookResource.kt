@@ -3,6 +3,7 @@ package org.acme.book
 import org.jboss.resteasy.annotations.jaxrs.PathParam
 import java.net.URI
 import java.util.UUID
+import javax.validation.Valid
 import javax.ws.rs.DELETE
 import javax.ws.rs.GET
 import javax.ws.rs.POST
@@ -29,14 +30,14 @@ class BookResource {
     }
 
     @POST
-    fun add(book: Book): Response {
+    fun add(@Valid book: Book): Response {
         this.books.add(book)
         return Response.created(URI("/book/${book.id}")).entity(book).build()
     }
 
     @PUT
     @Path("/{id}")
-    fun update(@PathParam id: String, book: Book): Response {
+    fun update(@PathParam id: String, @Valid book: Book): Response {
         val bookToUpdate = this.books.find { item -> item.id == UUID.fromString(id) } ?: return Response.status(NOT_FOUND).build()
 
         bookToUpdate.title = book.title
