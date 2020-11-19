@@ -1,0 +1,6 @@
+# Configuration file
+api:
+  crypto/mp-rest/url: https://api.coinlore.net/api
+  crypto/mp-rest/scope: javax.inject.Singleton
+  # FIXME This will have no effect until microprofile-rest-client-api version 2.0 is released: https://github.com/quarkusio/quarkus/issues/12517
+  crypto/mp-rest/folloRedirects: true
