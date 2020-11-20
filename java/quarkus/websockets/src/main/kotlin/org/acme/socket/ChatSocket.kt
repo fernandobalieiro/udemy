@@ -1,5 +1,6 @@
 package org.acme.socket
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.util.concurrent.ConcurrentHashMap
 import javax.enterprise.context.ApplicationScoped
 import javax.websocket.OnClose
@@ -19,34 +20,55 @@ class ChatSocket {
     @OnOpen
     fun onOpen(session: Session, @PathParam("username") username: String) {
         sessionMap[username] = session
-        sendMessage("User $username logged in")
+        sendPublicMessage("User $username logged in")
     }
 
     @OnMessage
     fun onMessage(message: String, @PathParam("username") username: String) {
-        sendMessage(">> $username: $message")
+        val messageChat = mapper.readValue(message, Message::class.java)
+        if (messageChat.destination.isBlank()) {
+            sendPublicMessage(">> $username: ${messageChat.message}")
+        } else {
+            sendPrivateMessage(">> $username: ${messageChat.message}", username, messageChat.destination)
+        }
     }
 
     @OnClose
     fun onClose(session: Session, @PathParam("username") username: String) {
         sessionMap.remove(username)
-        sendMessage("User $username logged out")
+        sendPublicMessage("User $username logged out")
     }
 
     @OnError
     fun onError(session: Session, @PathParam("username") username: String, throwable: Throwable) {
         sessionMap.remove(username)
         throwable.printStackTrace()
-        sendMessage("User $username logged out due to an error")
+        sendPublicMessage("User $username logged out due to an error")
     }
 
-    private fun sendMessage(message: String) {
+    private fun sendPrivateMessage(message: String, userFrom: String, usernameTo: String) {
+        if (sessionMap[usernameTo] == null) {
+            sessionMap[userFrom]?.let { session -> sendMessage(session, "User $usernameTo not found") }
+        } else {
+            sessionMap[usernameTo]?.let { session -> sendMessage(session, message) }
+        }
+    }
+
+    private fun sendPublicMessage(message: String) {
         sessionMap.values.forEach { session ->
-            session.asyncRemote.sendObject(message) { result ->
-                if (result.exception != null) {
-                    result.exception.printStackTrace()
-                }
+            sendMessage(session, message)
+        }
+    }
+
+    private fun sendMessage(session: Session, message: String) {
+        session.asyncRemote.sendObject(message) { result ->
+            if (result.exception != null) {
+                result.exception.printStackTrace()
             }
         }
+    }
+
+    private companion object {
+        val mapper = jacksonObjectMapper()
     }
 }

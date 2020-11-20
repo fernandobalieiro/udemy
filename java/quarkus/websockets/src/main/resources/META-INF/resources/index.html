@@ -38,7 +38,12 @@
             </textarea>
     </div>
     <div class="row">
-        <input class="col-md-6" id="msg" type="text" placeholder="enter your message">
+        <div class="column">
+            <input class="col-md-5" id="msg" type="text" placeholder="enter your message">
+        </div>
+        <div class="column">
+            <input class="col-md-2" id="destination" type="text" placeholder="enter a username">
+        </div>
         <button class="col-md-1 btn btn-primary" id="send" type="button" disabled>send</button>
     </div>
 
@@ -99,8 +104,20 @@
     var sendMessage = function() {
         if (connected) {
             var value = $("#msg").val();
-            console.log("Sending " + value);
-            socket.send(value);
+            var destination = $("#destination").val();
+
+            if (destination && destination !== "") {
+                console.log("Sending '" + value + "' to: " + destination);
+            } else {
+                console.log("Sending '" + value + "' to: everybody");
+            }
+
+            const message = {
+                message: value,
+                destination: destination
+            };
+
+            socket.send(JSON.stringify(message));
             $("#msg").val("");
         }
     };
