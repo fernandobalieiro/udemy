@@ -1,5 +1,8 @@
 # Configuration file
-# key = value
+quarkus:
+  smallrye-openapi:
+    path: /swagger
+
 greeting:
   name: hello
   base64Name: RmVybmFuZG8=
