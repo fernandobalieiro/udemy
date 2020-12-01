@@ -1,6 +1,7 @@
 package org.acme;
 
 import io.reactivex.Flowable;
+import org.acme.data.Price;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -11,11 +12,11 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @ApplicationScoped
 public class PriceProducer {
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     @Outgoing("price")
-    public Flowable<Long> producePrice() {
+    public Flowable<Price> producePrice() {
         return Flowable.interval(5, SECONDS)
-                .map(it -> (long) random.nextInt(4000));
+                .map(it -> new Price((long) random.nextInt(6000), "BTC"));
     }
 }

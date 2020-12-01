@@ -1,6 +1,7 @@
 package org.acme;
 
 import io.smallrye.reactive.messaging.annotations.Broadcast;
+import org.acme.data.Price;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 
@@ -12,7 +13,8 @@ public class PriceConverter {
     @Incoming("prices")
     @Outgoing("converted-prices")
     @Broadcast
-    public double convert(long price) {
-        return price * 1.5d;
+    public Price convert(final Price price) {
+        price.setPrice(price.getPrice() * 2);
+        return price;
     }
 }
