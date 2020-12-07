@@ -1,0 +1,12 @@
+# Configuration file
+quarkus:
+  banner:
+    enabled: false
+  http:
+    cors:
+      ~: true
+      origins: http://localhost:63342,http://localhost:63345
+      methods: GET,PUT
+      headers: X-Custom
+      exposed-headers: Content-Description
+      access-control-max-age: 12H
